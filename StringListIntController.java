@@ -18,6 +18,18 @@ public class StringListIntController implements StringListInt {
         }
     }
 
+    private void sorting() {
+
+    }
+
+    private static int[] generateRandomArray() {
+        java.util.Random random = new java.util.Random();
+        int[] arr = new int[30];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = random.nextInt(100_000) + 100_000;
+        }
+        return arr;
+    }
 
     private void arrayExtension() {
         Integer[] integers = new Integer[size + 5];
@@ -103,11 +115,33 @@ public class StringListIntController implements StringListInt {
         if (item <= 0) {
             throw new TheArgumentIsMissingException("значение не было введено");
         }
-        for (int i = 0; i < size; i++) {
-            if (integer[i].equals(item)) {
+        for (int i = 0; i < integer.length - 1; i++) {
+            for (int j = 0; j < integer.length - 1 - i; j++) {
+                if (integer[j] > integer[j + 1]) {
+                    integer[j] = j + 1;
+                    integer[j + 1]  = j;
+                }
+            }
+        }
+        containsSort(integer, item);
+        return false;
+    }
+
+    private static boolean containsSort(Integer[] arr, int element) {
+        int min = 0;
+        int max = arr.length - 1;
+
+        while (min <= max) {
+            int mid = (min + max) / 2;
+
+            if (element == arr[mid]) {
                 return true;
+            }
+
+            if (element < arr[mid]) {
+                max = mid - 1;
             } else {
-                throw new TheArgumentIsMissingFromTheListException("Такого элемента нет в списке");
+                min = mid + 1;
             }
         }
         return false;
