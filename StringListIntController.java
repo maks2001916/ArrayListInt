@@ -5,7 +5,7 @@ import Exceptions.TheArgumentIsMissingFromTheListException;
 import java.util.Arrays;
 
 public class StringListIntController implements StringListInt {
-    private final Integer[] integer;
+    private Integer[] integer;
     private int size;
 
 
@@ -31,12 +31,8 @@ public class StringListIntController implements StringListInt {
         return arr;
     }
 
-    private Integer[] grow() {
-        Integer[] integers = new Integer[size + (size / 2)];
-        for (int j = 0; j < size; j++) {
-            integers[j] = integer[j];
-        }
-        return integers;
+    private void grow() {
+        integer = Arrays.copyOf(integer, size + size / 2);
     }
 
     @Override
@@ -60,7 +56,7 @@ public class StringListIntController implements StringListInt {
         if (index == size) {
             grow();
         }
-        quickSort(integer, 0, size);
+        quickSort(integer, 0, integer.length - 1);
         return item;
     }
 
