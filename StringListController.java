@@ -19,7 +19,7 @@ public class StringListController implements StringList {
     }
 
     private void arrayExtension() {
-        String[] strings = new String[size + 5];
+        String[] strings = new String[size + (size / 2)];
         for (int j = 0; j < size; j++) {
             strings[j] = string[j];
         }

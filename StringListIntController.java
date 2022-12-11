@@ -31,11 +31,12 @@ public class StringListIntController implements StringListInt {
         return arr;
     }
 
-    private void arrayExtension() {
-        Integer[] integers = new Integer[size + 5];
+    private Integer[] grow() {
+        Integer[] integers = new Integer[size + (size / 2)];
         for (int j = 0; j < size; j++) {
             integers[j] = integer[j];
         }
+        return integers;
     }
 
     @Override
@@ -56,18 +57,42 @@ public class StringListIntController implements StringListInt {
         if (item <= 0) {
             throw new TheArgumentIsMissingException("значение не было введено");
         }
-        if (integer[index] != 0) {
-            for (int i = index; i < size; i++) {
-                if (integer[i] == 0) {
-                    break;
-                }
-                integer[i + 1] = integer[i];
-            }
-            integer[index] = item;
-        } else {
-            integer[index] = item;
+        if (index == size) {
+            grow();
         }
+        quickSort(integer, 0, size);
         return item;
+    }
+
+    public static void quickSort(Integer[] arr, int begin, int end) {
+        if (begin < end) {
+            int partitionIndex = partition(arr, begin, end);
+
+            quickSort(arr, begin, partitionIndex - 1);
+            quickSort(arr, partitionIndex + 1, end);
+        }
+    }
+
+    private static int partition(Integer[] arr, int begin, int end) {
+        int pivot = arr[end];
+        int i = (begin - 1);
+
+        for (int j = begin; j < end; j++) {
+            if (arr[j] <= pivot) {
+                i++;
+
+                swapElements(arr, i, j);
+            }
+        }
+
+        swapElements(arr, i + 1, end);
+        return i + 1;
+    }
+
+    private static void swapElements(Integer[] arr, int left, int right) {
+        int temp = arr[left];
+        arr[left] = arr[right];
+        arr[right] = temp;
     }
 
     @Override
